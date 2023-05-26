@@ -44,7 +44,7 @@ DROP TABLE  IF EXISTS TitleAkasType;
 
 CREATE TABLE TitleAkasType (
  typesId char(10),
- types varchar(512),
+ types varchar(4096),
  PRIMARY KEY (typesId) );
 
 
@@ -60,7 +60,7 @@ DROP TABLE  IF EXISTS NameBasicsPrimaryprofessionPrimaryprofession;
 
 CREATE TABLE NameBasicsPrimaryprofessionPrimaryprofession (
  primaryProfessionId char(10),
- primaryProfession varchar(512),
+ primaryProfession varchar(4096),
  PRIMARY KEY (primaryProfessionId) );
 
 
@@ -77,7 +77,7 @@ DROP TABLE  IF EXISTS NameBasicsKnownfortitles;
 CREATE TABLE NameBasicsKnownfortitles (
  nconst char(10),
  knownForTitleNo int,
- knownForTitle varchar(512),
+ knownForTitle varchar(4096),
  PRIMARY KEY (nconst,knownForTitleNo) );
 
 
@@ -94,7 +94,7 @@ DROP TABLE  IF EXISTS TitleCrewDirectors;
 CREATE TABLE TitleCrewDirectors (
  tconst char(10),
  directorNo int,
- director varchar(512),
+ director varchar(4096),
  PRIMARY KEY (tconst,directorNo) );
 
 
@@ -114,7 +114,7 @@ CREATE TABLE TitlePrincipals (
  nconst char(10),
  category int,
  job int,
- characters varchar(512),
+ characters varchar(4096),
  PRIMARY KEY (tconst,ordering,nconst) );
 
 
@@ -148,7 +148,7 @@ DROP TABLE  IF EXISTS TitlePrincipalsCategory;
 
 CREATE TABLE TitlePrincipalsCategory (
  categoryId char(10),
- category varchar(512),
+ category varchar(4096),
  PRIMARY KEY (categoryId) );
 
 
@@ -165,7 +165,7 @@ DROP TABLE  IF EXISTS TitleAkas;
 CREATE TABLE TitleAkas (
  titleId char(10),
  ordering int,
- title varchar(512),
+ title varchar(4096),
  region int,
  language int,
  types int,
@@ -186,7 +186,7 @@ DROP TABLE  IF EXISTS TitleAkasAttribute;
 
 CREATE TABLE TitleAkasAttribute (
  attributesId char(10),
- attributes varchar(512),
+ attributes varchar(4096),
  PRIMARY KEY (attributesId) );
 
 
@@ -219,11 +219,11 @@ DROP TABLE  IF EXISTS NameBasics;
 
 CREATE TABLE NameBasics (
  nconst char(10),
- primaryName varchar(512),
+ primaryName varchar(4096),
  birthYear int,
  deathYear int,
- primaryProfession varchar(512),
- knownForTitles varchar(512),
+ primaryProfession varchar(4096),
+ knownForTitles varchar(4096),
  PRIMARY KEY (nconst) );
 
 
@@ -239,7 +239,7 @@ DROP TABLE  IF EXISTS TitlePrincipalsJob;
 
 CREATE TABLE TitlePrincipalsJob (
  jobId char(10),
- job varchar(512),
+ job varchar(4096),
  PRIMARY KEY (jobId) );
 
 
@@ -256,7 +256,7 @@ DROP TABLE  IF EXISTS TitleCrewWriters;
 CREATE TABLE TitleCrewWriters (
  tconst char(10),
  writerNo int,
- writer varchar(512),
+ writer varchar(4096),
  PRIMARY KEY (tconst,writerNo) );
 
 
@@ -272,7 +272,7 @@ DROP TABLE  IF EXISTS TitleBasicsGenresGenre;
 
 CREATE TABLE TitleBasicsGenresGenre (
  genreId char(10),
- genre varchar(512),
+ genre varchar(4096),
  PRIMARY KEY (genreId) );
 
 
@@ -288,7 +288,7 @@ DROP TABLE  IF EXISTS TitleAkasRegion;
 
 CREATE TABLE TitleAkasRegion (
  regionId char(10),
- region varchar(512),
+ region varchar(4096),
  PRIMARY KEY (regionId) );
 
 
@@ -305,13 +305,13 @@ DROP TABLE  IF EXISTS TitleBasics;
 CREATE TABLE TitleBasics (
  tconst char(10),
  titleType int,
- primaryTitle varchar(512),
- originalTitle varchar(512),
+ primaryTitle varchar(4096),
+ originalTitle varchar(4096),
  isAdult int,
  startYear int,
- endYear varchar(512),
+ endYear varchar(4096),
  runtimeMinutes int,
- genres varchar(512),
+ genres char,
  PRIMARY KEY (tconst) );
 
 
@@ -345,8 +345,8 @@ DROP TABLE  IF EXISTS TitleCrew;
 
 CREATE TABLE TitleCrew (
  tconst char(10),
- directors varchar(512),
- writers varchar(512),
+ directors varchar(4096),
+ writers varchar(4096),
  PRIMARY KEY (tconst) );
 
 
@@ -362,7 +362,7 @@ DROP TABLE  IF EXISTS TitleAkasLanguage;
 
 CREATE TABLE TitleAkasLanguage (
  languageId char(10),
- language varchar(512),
+ language varchar(4096),
  PRIMARY KEY (languageId) );
 
 
@@ -378,7 +378,7 @@ DROP TABLE  IF EXISTS TitleBasicsTitletype;
 
 CREATE TABLE TitleBasicsTitletype (
  titleTypeId char(10),
- titleType varchar(512),
+ titleType varchar(4096),
  PRIMARY KEY (titleTypeId) );
 
 
