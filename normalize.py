@@ -73,7 +73,13 @@ def unwind(row,idFields,field,table,normaliseField=False,parseJson=False):
          singularField = field     
     if writer is None:
         outfile =  open(F"outputfiles/{table}.tsv","w")
-        writer = csv.DictWriter(outfile, idFields + [F"{singularField}No",singularField] ,delimiter='\t',quotechar='\a',lineterminator='\n')
+        outFields = idFields + [F"{singularField}No"]
+        if normaliseField:
+            outFields.append(singularField+"Id")
+        else:
+            outFields.append(singularField)
+
+        writer = csv.DictWriter(outfile, outFields,delimiter='\t',quotechar='\a',lineterminator='\n')
         writers[table] = writer
         writer.writeheader()
 
@@ -91,11 +97,13 @@ def unwind(row,idFields,field,table,normaliseField=False,parseJson=False):
         newRow = {}
         for idField in idFields:
               newRow[idField] = row[idField]
-        newRow[singularField] = fieldValue
-        newRow[F"{singularField}No"] = index
         
+        newRow[F"{singularField}No"] = index
+        newRow[singularField] = fieldValue
         if normaliseField == True:
-             newRow[singularField] = normalise( newRow, singularField ,F"{table}.{singularField}")
+             newRow[singularField+"Id"] = normalise( newRow, singularField ,F"{table}.{singularField}")
+             del newRow[singularField]
+            
        
         index = index + 1
         writer.writerow(newRow)
@@ -111,23 +119,32 @@ for name in inputs.keys():
     with open(F"inputfiles/{name}.tsv") as infile:
         with open(F"outputfiles/{name}.tsv","w") as outfile:
                 reader = csv.DictReader(infile, delimiter='\t',quotechar='\a')
-                writer = csv.DictWriter(outfile, reader.fieldnames ,delimiter='\t',quotechar='\a',lineterminator='\n')
+                newFieldnames = []
+                for fn in reader.fieldnames:
+                    if inputs[name].get(fn,"") == "normalise":
+                        newFieldnames.append(fn+"Id")
+                    elif inputs[name].get(fn,"").startswith("unwind"):
+                        pass
+                    else:
+                        newFieldnames.append(fn)
+
+                writer = csv.DictWriter(outfile, newFieldnames ,delimiter='\t',quotechar='\a',lineterminator='\n')
                 writer.writeheader()
                 for row in reader:
                     newrow = {}
                     for field in row:
                         #Repeating value should be in own table
                         if inputs[name].get(field,"") == "normalise":
-                             newrow[field] = normalise(row,field,F"{name}.{field}")
+                             newrow[field+"Id"] = normalise(row,field,F"{name}.{field}")
                         #A comma seperated field needs ot become another table
                         elif inputs[name].get(field,"") == "unwind":
-                             newrow[field] = '\\N'
+                             
                              unwind(row,inputs[name]['_keyFields'],field,F"{name}.{field}")
                         elif inputs[name].get(field,"") == "unwindAndNormalise":
-                             newrow[field] = '\\N'
+                             
                              unwind(row,inputs[name]['_keyFields'],field,F"{name}.{field}",normaliseField=True)
                         elif inputs[name].get(field,"") == "unwindJson":
-                             newrow[field] = '\\N'
+                            
                              unwind(row,inputs[name]['_keyFields'],field,F"{name}.{field}",normaliseField=False,parseJson=True)
                         else:
                             newrow[field] = row[field]
